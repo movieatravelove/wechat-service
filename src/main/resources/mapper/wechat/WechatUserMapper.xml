@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wechat.modules.weixin.mapper.WechatUserMapper">
+
+
+    <insert id="insertWechatUser" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.github.wechat.modules.weixin.entity.WechatUserDTO">
+        INSERT INTO `zs_wechat_user` (`openid`, `nickname`, `sex`, `head_img_url`, `wechat_no`,
+        `country`, `province`, `city`, `update_time`, `last_login_time`, `status`)
+        VALUES (#{openid}, #{nickname}, #{sex}, #{headImgUrl}, #{wechatNo},
+        #{country}, #{province}, #{city}, NOW(), NOW(), 0)
+    </insert>
+
+
+    <update id="updateWechatUser"
+            parameterType="com.github.wechat.modules.weixin.entity.WechatUserDTO">
+        UPDATE `zs_wechat_user`
+        SET `nickname`=#{nickname}, `sex`=#{sex}, `head_img_url`=#{headImgUrl},
+        `wechat_no`=#{wechatNo}, `country`=#{country}, `province`=#{province}, `city`=#{city},
+        `update_time`=NOW(), `last_login_time`=NOW()
+        WHERE `openid` = #{openid}
+    </update>
+
+
+</mapper>

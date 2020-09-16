@@ -1,0 +1,14 @@
+{
+  "button": [
+    {
+      "type": "view",
+      "name": "菜单1",
+      "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=URL%23%2fwelfare&response_type=code&scope=snsapi_userinfo&state=a#wechat_redirect"
+    },
+    {
+      "type": "view",
+      "name": "菜单2",
+      "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=URL%23%2fpersonal&response_type=code&scope=snsapi_userinfo&state=a#wechat_redirect"
+    }
+  ]
+}

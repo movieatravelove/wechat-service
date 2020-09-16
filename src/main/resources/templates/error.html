@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="UTF-8">
+<title>抱歉，出错了</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+<link rel="stylesheet" type="text/css" href="https://res.wx.qq.com/open/libs/weui/0.4.1/weui.css">
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="weui_msg">
+<div class="weui_icon_area">
+<i class="weui_icon_info weui_icon_msg"></i>
+</div>
+<div class="weui_text_area">
+<h4 class="weui_msg_title">未找到页面</h4>
+</div>
+</div>
+<script th:inline="javascript">
+    var data = [[${data}]];
+    // console.log(data);
+    $(".weui_msg_title").html(data.message);
+</script>
+</body>
+</html>
