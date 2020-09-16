@@ -40,10 +40,10 @@ public interface IWechatUserService {
      */
     AccessTokenDO getAccessToken();
 
-        /**
-         * 创建自定义菜单
-         * @return
-         */
+    /**
+     * 创建自定义菜单
+     * @return
+     */
     boolean createCustomMenu();
 
     /**
