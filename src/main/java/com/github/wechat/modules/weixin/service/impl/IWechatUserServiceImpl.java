@@ -10,7 +10,6 @@ import com.github.wechat.modules.weixin.entity.WechatUserDTO;
 import com.github.wechat.modules.weixin.entity.WechatUserVO;
 import com.github.wechat.modules.weixin.mapper.WechatUserMapper;
 import com.github.wechat.modules.weixin.service.IWechatUserService;
-import com.github.wechat.modules.weixin.utils.WXSignUtil;
 import com.github.wechat.modules.weixin.utils.WeixinUtil;
 import com.github.wechat.utils.*;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,8 +45,6 @@ public class IWechatUserServiceImpl implements IWechatUserService {
     private String WX_APPID;
     @Value("${app.WX_APPSECRET}")
     private String WX_APPSECRET;
-    @Value("${app.WX_TOKEN}")
-    private String WX_TOKEN;
     @Value("${app.WX_OAUTH_ACCESS_TOKEN_URL}")
     private String WX_OAUTH_ACCESS_TOKEN_URL;
     @Value("${app.WX_OAUTH_REFRESH_TOKEN_URL}")
@@ -80,35 +73,8 @@ public class IWechatUserServiceImpl implements IWechatUserService {
     private UserQrcodeService userQrcodeService;
 
     @Value("classpath:static/data/menu.json")
-    private Resource menuJson;
+    private Resource MENU_JSON;
 
-
-    /**
-     * token验证
-     *
-     * @param request
-     * @param response
-     * @throws IOException
-     */
-    @Override
-    public void checkSignature(HttpServletRequest request, HttpServletResponse response) {
-        String signature = request.getParameter("signature");/// 微信加密签名
-        String timestamp = request.getParameter("timestamp");/// 时间戳
-        String nonce = request.getParameter("nonce"); /// 随机数
-        String echostr = request.getParameter("echostr"); // 随机字符串
-        System.out.println("+++1:"+WX_APPID);
-        System.out.println("+++2:"+WX_TOKEN);
-        try {
-            PrintWriter out = response.getWriter();
-            if (WXSignUtil.checkSignature(signature, WX_TOKEN, timestamp, nonce)) {
-                log.info("校验成功！");
-                out.print(echostr);
-            }
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 通过code 换取网页授权access_token
@@ -160,23 +126,18 @@ public class IWechatUserServiceImpl implements IWechatUserService {
 
 
     @Override
-    public boolean createCustomMenu() {
-        // 调用接口创建菜单
-        String menu = null;
-        try {
-            menu = IOUtils.toString(menuJson.getInputStream(), Charset.forName("UTF-8"));
-            menu = new String(menu.getBytes(), "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Object parse = JSON.parse(menu);
-        System.out.println("menu:" + parse);
-        String accessToken = getAccessToken().getAccessToken();
-        String url = WX_CUSTOM_MENU_URL.replace("ACCESS_TOKEN", accessToken);
+    public boolean createCustomMenu(String json) {
+        String menu = json;
         String data = "";
-        // restTemplate post 乱码问题
-//        data = restTemplate.postForObject(url, parse, String.class);
         try {
+            if (StringUtils.isEmpty(json)) {
+                menu = IOUtils.toString(MENU_JSON.getInputStream(), Charset.forName("UTF-8"));
+            }
+            menu = new String(menu.getBytes(), "UTF-8");
+            Object parse = JSON.parse(menu);
+            System.out.println("menu:" + parse);
+            String accessToken = getAccessToken().getAccessToken();
+            String url = WX_CUSTOM_MENU_URL.replace("ACCESS_TOKEN", accessToken);
             data = HttpClientUtil.post(url, menu);
         } catch (Exception e) {
             e.printStackTrace();

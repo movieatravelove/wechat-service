@@ -22,7 +22,6 @@ public class WXSignUtil {
      */
     public static boolean checkSignature(String signature, String token, String timestamp, String nonce) {
         String[] arr = new String[] { token, timestamp, nonce };
-        System.out.println("+++:"+token);
         // 将token、timestamp、nonce三个参数进行字典序排序
         Arrays.sort(arr);
         StringBuilder content = new StringBuilder();

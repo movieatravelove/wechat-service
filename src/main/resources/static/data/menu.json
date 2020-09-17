@@ -1,14 +1,22 @@
 {
-  "button": [
+  "button":[
     {
-      "type": "view",
-      "name": "菜单1",
-      "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=URL%23%2fwelfare&response_type=code&scope=snsapi_userinfo&state=a#wechat_redirect"
+      "type":"click",
+      "name":"今日歌曲",
+      "key":"V1001_TODAY_MUSIC"
     },
     {
-      "type": "view",
-      "name": "菜单2",
-      "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=URL%23%2fpersonal&response_type=code&scope=snsapi_userinfo&state=a#wechat_redirect"
-    }
-  ]
+      "name":"菜单",
+      "sub_button":[
+        {
+          "type":"view",
+          "name":"搜索",
+          "url":"http://www.soso.com/"
+        },
+        {
+          "type":"click",
+          "name":"赞一下我们",
+          "key":"V1001_GOOD"
+        }]
+    }]
 }

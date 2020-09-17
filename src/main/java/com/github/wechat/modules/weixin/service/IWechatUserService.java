@@ -4,9 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.wechat.entity.Result;
 import com.github.wechat.modules.weixin.entity.AccessTokenDO;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * @Author: zhang
  * @Date: 2019/12/12/012 11:09
@@ -24,14 +21,6 @@ public interface IWechatUserService {
     Result getOauthAccessToken(String code);
 
 
-    /**
-     * 签名验证
-     * @param request
-     * @param response
-     */
-    void checkSignature(HttpServletRequest request, HttpServletResponse response);
-
-
     Result getUserInfo(String openId);
 
     /**
@@ -44,7 +33,7 @@ public interface IWechatUserService {
      * 创建自定义菜单
      * @return
      */
-    boolean createCustomMenu();
+    boolean createCustomMenu(String json);
 
     /**
      * 查询自定义菜单
